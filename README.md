@@ -1,4 +1,4 @@
-# Music to Emot
+# Music to Emotions
 
 A new Flutter project.
 
