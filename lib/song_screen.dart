@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class SongScreen extends StatelessWidget {
   final String song;
+  final String mood;
   final List artist;
 
-  const SongScreen({Key? key, required this.song, required this.artist})
+  const SongScreen({Key? key, required this.song, required this.artist, required this.mood})
       : super(key: key);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:acr_cloud_sdk/acr_cloud_sdk.dart';
+import 'package:another_trial/service/mood_service.dart';
 import 'package:another_trial/song_screen.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    MoodService().getMood("""Who am I? Someone that's afraid to let go, uh
+You decide, if you're ever gonna let me know, yeah
+Suicide, if you ever try to let go, uh
+I'm sad I know, yeah, I'm sad I know, yeah
+Who am I? Someone that's afraid to let go, uh
+You decide, if you're ever gonna let me know, yeah
+Suicide, if you ever try to let go, uh
+I'm sad I know, yeah, I'm sad I know, yeah
+I gave her everything
+She took my heart and left me lonely
+I think broken heart's contagious
+I won't fix, I'd rather weep
+I'm lost then I'm found
+But it's torture bein' in love
+I love when you're around
+But I fuckin' hate when you leave
+Who am I? Someone that's afraid to let go, uh
+You decide, if you're ever gonna let me know, yeah
+Suicide, if you ever try to let go, uh
+I'm sad I know, yeah, I'm sad I know, yeah
+Who am I? Someone that's afraid to let go, uh
+You decide, if you're ever gonna let me know, yeah
+Suicide, if you ever try to let go, uh
+I'm sad I know, yeah, I'm sad I know, yeah""");
+
     _acrCloudSdk
       ..init(
         host: 'identify-eu-west-1.acrcloud.com',
@@ -38,12 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
       List<Artists>? songArtist = song.metadata!.music![0].artists;
 
       if (songTitle != null) {
+        var moodService = MoodService();
+        var mood = await moodService.getMood(songTitle);
+
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => SongScreen(
               song: songTitle,
               artist: [songArtist],
+              mood: mood,
             ),
           ),
         );
@@ -61,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) => const SongScreen(
           song: 'Could not recognize song',
           artist: ["Could not recognize artist"],
+          mood: "Could not recognize mood",
         ),
       ),
     );
