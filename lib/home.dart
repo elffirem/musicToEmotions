@@ -72,7 +72,6 @@ I'm sad I know, yeah, I'm sad I know, yeah""");
           MaterialPageRoute(
             builder: (context) => SongScreen(
               song: songTitle,
-              artist: [songArtist],
               mood: mood,
             ),
           ),
@@ -90,7 +89,6 @@ I'm sad I know, yeah, I'm sad I know, yeah""");
       MaterialPageRoute(
         builder: (context) => const SongScreen(
           song: 'Could not recognize song',
-          artist: ["Could not recognize artist"],
           mood: "Could not recognize mood",
         ),
       ),

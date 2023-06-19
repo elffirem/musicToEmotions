@@ -1,51 +1,92 @@
 import 'package:flutter/material.dart';
 
-class SongScreen extends StatelessWidget {
+class SongScreen extends StatefulWidget {
   final String song;
   final String mood;
-  final List artist;
 
-  const SongScreen({Key? key, required this.song, required this.artist, required this.mood})
-      : super(key: key);
+  const SongScreen({
+    Key? key,
+    required this.song,
+    required this.mood,
+  }) : super(key: key);
+
+  @override
+  State<SongScreen> createState() => _SongScreenState();
+}
+
+class _SongScreenState extends State<SongScreen> {
+  Color backgroundColor = const Color(0xFF302E4A);
+  Color tagColor = Colors.black;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.mood == 'happy') {
+      backgroundColor = const Color(0xffF3D375);
+    } else if (widget.mood == 'sad') {
+      backgroundColor = const Color(0xffBCBDC1);
+    } else if (widget.mood == 'relaxed') {
+      backgroundColor = const Color(0xff7DC0D9);
+    } else if (widget.mood == 'angry') {
+      backgroundColor = const Color(0xffEE5D5B);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: const Color(0xFF302E4A),
+      backgroundColor: backgroundColor,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              song,
-              style: const TextStyle(
-                fontSize: 30.0,
+              'Song',
+              style: TextStyle(
+                fontSize: 24.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
-                shadows: [
-                  Shadow(
-                    blurRadius: 10.0,
-                    color: Colors.black,
-                    offset: Offset(5.0, 5.0),
-                  ),
-                ],
+                color: tagColor,
               ),
             ),
             Text(
-              artist[0],
+              widget.song,
               style: const TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                shadows: [
-                  Shadow(
-                    blurRadius: 10.0,
-                    color: Colors.black,
-                    offset: Offset(5.0, 5.0),
-                  ),
-                ],
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Text(
+              'Mood by Lyrics',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: tagColor,
+              ),
+            ),
+            Text(
+              widget.mood,
+              style: const TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Text(
+              'Mood by Music',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: tagColor,
+              ),
+            ),
+            Text(
+              widget.mood,
+              style: const TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
           ],
