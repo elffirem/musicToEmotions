@@ -21,30 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    MoodService().getMood("""Who am I? Someone that's afraid to let go, uh
-You decide, if you're ever gonna let me know, yeah
-Suicide, if you ever try to let go, uh
-I'm sad I know, yeah, I'm sad I know, yeah
-Who am I? Someone that's afraid to let go, uh
-You decide, if you're ever gonna let me know, yeah
-Suicide, if you ever try to let go, uh
-I'm sad I know, yeah, I'm sad I know, yeah
-I gave her everything
-She took my heart and left me lonely
-I think broken heart's contagious
-I won't fix, I'd rather weep
-I'm lost then I'm found
-But it's torture bein' in love
-I love when you're around
-But I fuckin' hate when you leave
-Who am I? Someone that's afraid to let go, uh
-You decide, if you're ever gonna let me know, yeah
-Suicide, if you ever try to let go, uh
-I'm sad I know, yeah, I'm sad I know, yeah
-Who am I? Someone that's afraid to let go, uh
-You decide, if you're ever gonna let me know, yeah
-Suicide, if you ever try to let go, uh
-I'm sad I know, yeah, I'm sad I know, yeah""");
+    MoodService().getMood("Улыбайся", "IOWA");
 
     _acrCloudSdk
       ..init(
@@ -63,9 +40,9 @@ I'm sad I know, yeah, I'm sad I know, yeah""");
       String? songTitle = song.metadata!.music![0].title;
       List<Artists>? songArtist = song.metadata!.music![0].artists;
 
-      if (songTitle != null) {
+      if (songTitle != null && songArtist != null) {
         var moodService = MoodService();
-        var mood = await moodService.getMood(songTitle);
+        var mood = await moodService.getMood(songTitle, songArtist[0].name!);
 
         Navigator.push(
           context,
