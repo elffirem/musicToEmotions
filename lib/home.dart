@@ -3,6 +3,8 @@ import 'package:another_trial/service/mood_service.dart';
 import 'package:another_trial/song_screen.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -42,21 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if (songTitle != null && songArtist != null) {
         var moodService = MoodService();
-        var mood = await moodService.getMood(songTitle, songArtist[0].name!);
+        var moods = await moodService.getMood(songTitle, songArtist[0].name!);
+        var mood = moods['mood'];
+        var moodBySound = moods['moodBySound'];
 
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => SongScreen(
               song: songTitle,
-              mood: mood,
+              mood: mood!.isEmpty ? "Couldn't Detect" : mood,
+              moodBySound:
+                  moodBySound!.isEmpty ? "Couldn't Detect" : moodBySound,
             ),
           ),
         );
         _stopRecognition();
       }
     } else {
-      // handle the case when no song is recognized
+      _handleUnrecognizedSong();
     }
   }
 
@@ -65,8 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => const SongScreen(
+          moodBySound: "Could not recognize mood by sound",
           song: 'Could not recognize song',
-          mood: "Could not recognize mood",
+          mood: "Could not recognize mood by lyrics",
         ),
       ),
     );
@@ -74,16 +81,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startRecognition() async {
-    print("Recognition Started!");
+    setState(() {
+      _isRecognizing = true;
+    });
+
     try {
       started = await _acrCloudSdk.start();
     } catch (e) {
       print('Error starting ACRCloudSdk: $e');
     }
-    print("Ofc Started!");
-    setState(() {
-      _isRecognizing = started;
-    });
 
     Future.delayed(const Duration(seconds: 15), () {
       if (_isRecognizing) {
@@ -94,10 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _stopRecognition() async {
-    print("Recognition Stopped!");
     bool stopped = await _acrCloudSdk.stop();
+
     setState(() {
-      _isRecognizing = !stopped;
+      _isRecognizing = false;
     });
   }
 
@@ -109,25 +115,106 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AvatarGlow(
-              animate: _isRecognizing,
-              endRadius: 90.0,
-              child: SizedBox(
-                width: 150.0,
-                height: 150.0,
-                child: FloatingActionButton(
-                  onPressed: _startRecognition,
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    _isRecognizing ? 'Recognizing...' : 'Start',
-                    style: const TextStyle(
-                      fontSize: 24.0,
-                      color: Color(0xFF302E4A),
-                      fontWeight: FontWeight.bold,
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: _isRecognizing
+                  ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0, bottom: 84),
+                          child: Text(
+                            'Analyzing...',
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4.0,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Lottie.asset(
+                          'assets/animation.json',
+                          key: const ValueKey<String>('animation'),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0, bottom: 84),
+                          child: Text(
+                            'Music to Emotions',
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4.0,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        AvatarGlow(
+                          key: const ValueKey<String>('button'),
+                          animate: _isRecognizing,
+                          glowColor: Colors.white,
+                          endRadius: 90.0,
+                          child: SizedBox(
+                            width: 150.0,
+                            height: 150.0,
+                            child: FloatingActionButton(
+                              onPressed: _startRecognition,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                _isRecognizing ? 'Recognizing...' : 'Start',
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  color: Color(0xFF302E4A),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 32),
+                          child: Column(
+                            children: [
+                              Text(
+                                'press start',
+                                style: GoogleFonts.comicNeue(
+                                  textStyle: const TextStyle(
+                                    fontSize: 15.0,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'so you can discover the emotion of your song',
+                                style: GoogleFonts.comicNeue(
+                                  textStyle: const TextStyle(
+                                    fontSize: 15.0,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+
+extension StringExtension on String {
+  String capitalize() {
+    print('${this[0].toUpperCase()}${substring(1)}');
+    return '${this[0].toUpperCase()}${substring(1)}';
+  }
+}
 
 class SongScreen extends StatefulWidget {
   final String song;
   final String mood;
+  final String moodBySound;
 
   const SongScreen({
     Key? key,
     required this.song,
     required this.mood,
+    required this.moodBySound,
   }) : super(key: key);
 
   @override
@@ -15,19 +26,29 @@ class SongScreen extends StatefulWidget {
 }
 
 class _SongScreenState extends State<SongScreen> {
-  Color backgroundColor = const Color(0xFF302E4A);
+  Color backgroundColor = const Color.fromARGB(255, 91, 58, 145);
   Color tagColor = Colors.black;
+  late String animationAsset;
+
   @override
   void initState() {
     super.initState();
-    if (widget.mood == 'happy') {
-      backgroundColor = const Color(0xffF3D375);
-    } else if (widget.mood == 'sad') {
-      backgroundColor = const Color(0xffBCBDC1);
-    } else if (widget.mood == 'relaxed') {
-      backgroundColor = const Color(0xff7DC0D9);
-    } else if (widget.mood == 'angry') {
-      backgroundColor = const Color(0xffEE5D5B);
+    if (widget.mood == widget.moodBySound) {
+      if (widget.mood == 'happy') {
+        backgroundColor = const Color(0xffF3D375);
+        animationAsset = 'assets/happy.json';
+      } else if (widget.mood == 'sad') {
+        backgroundColor = const Color(0xffBCBDC1);
+        animationAsset = 'assets/sad.json';
+      } else if (widget.mood == 'relaxed') {
+        backgroundColor = const Color(0xff7DC0D9);
+        animationAsset = 'assets/relaxed.json';
+      } else if (widget.mood == 'angry') {
+        backgroundColor = const Color(0xffEE5D5B);
+        animationAsset = 'assets/angry.json';
+      }
+    } else {
+      animationAsset = 'assets/confused.json';
     }
   }
 
@@ -35,61 +56,112 @@ class _SongScreenState extends State<SongScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Song',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: tagColor,
-              ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: const [0.1, 0.3, 0.55, 0.9],
+            colors: [
+              backgroundColor.withOpacity(0.9),
+              backgroundColor.withOpacity(0.7),
+              backgroundColor.withOpacity(0.5),
+              Colors.white.withOpacity(0.9),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                const Spacer(),
+                Text(
+                  'Song',
+                  style: GoogleFonts.comicNeue(
+                    textStyle: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: tagColor,
+                    ),
+                  ),
+                ),
+                Text(
+                  widget.song,
+                  style: GoogleFonts.comicNeue(
+                    textStyle: const TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  'Mood by Lyrics',
+                  style: GoogleFonts.comicNeue(
+                    textStyle: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: tagColor,
+                    ),
+                  ),
+                ),
+                Text(
+                  widget.mood.capitalize(),
+                  style: GoogleFonts.comicNeue(
+                    textStyle: const TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  'Mood by Music',
+                  style: GoogleFonts.comicNeue(
+                    textStyle: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: tagColor,
+                    ),
+                  ),
+                ),
+                Text(
+                  widget.moodBySound.capitalize(),
+                  style: GoogleFonts.comicNeue(
+                    textStyle: const TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 70),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: SizedBox(
+                    height: 300.0,
+                    width: 300.0,
+                    child: Lottie.asset(
+                      animationAsset,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Text(
-              widget.song,
-              style: const TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Mood by Lyrics',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: tagColor,
-              ),
-            ),
-            Text(
-              widget.mood,
-              style: const TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Mood by Music',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: tagColor,
-              ),
-            ),
-            Text(
-              widget.mood,
-              style: const TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

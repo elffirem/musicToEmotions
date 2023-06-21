@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MoodService {
-  static const String baseUrl = "http://192.168.1.102:5000/";
-  Future<String> getMood(String songName, String artistName) async {
+  static const String baseUrl = "http://192.168.1.34:5000/";
+  Future<Map<String, String>> getMood(
+      String songName, String artistName) async {
     var response = await http.post(
       Uri.parse("${baseUrl}predict"),
       body: jsonEncode({'songName': songName, 'artistName': artistName}),
@@ -13,7 +14,11 @@ class MoodService {
     if (response.statusCode == 200) {
       print("Success");
       var data = jsonDecode(response.body);
-      return data['mood'];
+
+      return {
+        'mood': data['mood'] ?? "",
+        'moodBySound': data['moodBySound'] != null ? data!['moodBySound'] : ""
+      };
     } else {
       throw Exception('Failed to get mood');
     }
@@ -28,7 +33,7 @@ class MoodService {
     if (response.statusCode == 200) {
       print("Success");
       var data = jsonDecode(response.body);
-      return data['mood'];
+      return data['moodBySound'];
     } else {
       throw Exception('Failed to get mood');
     }
