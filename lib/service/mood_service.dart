@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MoodService {
-  static const String baseUrl = "http://192.168.1.34:5000/";
+  static const String baseUrl = "http://172.20.10.3:5000/";
   Future<Map<String, String>> getMood(
       String songName, String artistName) async {
     var response = await http.post(

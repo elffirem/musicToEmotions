@@ -3,7 +3,6 @@ import 'package:another_trial/service/mood_service.dart';
 import 'package:another_trial/song_screen.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -23,13 +22,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    MoodService().getMood("Улыбайся", "IOWA");
 
     _acrCloudSdk
       ..init(
         host: 'identify-eu-west-1.acrcloud.com',
-        accessKey: '8ae888974b56eb5b673ba6cd02299c73',
-        accessSecret: 'GVlxZFEzmreshnpIhT9c3D3RHLqijGh0scrJJ4ac',
+        accessKey: '723f21a2b6c74f61ef1767edabc363fe',
+        accessSecret: 'mhn9oCs0kmG1qsYHUjrB2pZ77iUPMWyb6LYFmySY',
         setLog: true,
       )
       ..songModelStream.listen(_onSongRecognized);
@@ -186,30 +184,23 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 32),
                           child: Column(
                             children: [
-                              Text(
-                                'press start',
-                                style: GoogleFonts.comicNeue(
-                                  textStyle: const TextStyle(
+                              Text('press start',
+                                  style: TextStyle(
                                     fontSize: 15.0,
                                     fontStyle: FontStyle.italic,
                                     color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                                  )),
                               Text(
-                                'so you can discover the emotion of your song',
-                                style: GoogleFonts.comicNeue(
-                                  textStyle: const TextStyle(
+                                  'so you can discover the emotion of your song',
+                                  style: TextStyle(
                                     fontSize: 15.0,
                                     fontStyle: FontStyle.italic,
                                     color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                                  )),
                             ],
                           ),
                         ),

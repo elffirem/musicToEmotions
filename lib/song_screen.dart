@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 extension StringExtension on String {
@@ -85,66 +84,54 @@ class _SongScreenState extends State<SongScreen> {
                   onPressed: () => Navigator.pop(context),
                 ),
                 const Spacer(),
-                Text(
+                const Text(
                   'Song',
-                  style: GoogleFonts.comicNeue(
-                    textStyle: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: tagColor,
-                    ),
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 Text(
                   widget.song,
-                  style: GoogleFonts.comicNeue(
-                    textStyle: const TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  style: const TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                Text(
+                const Text(
                   'Mood by Lyrics',
-                  style: GoogleFonts.comicNeue(
-                    textStyle: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: tagColor,
-                    ),
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 Text(
                   widget.mood.capitalize(),
-                  style: GoogleFonts.comicNeue(
-                    textStyle: const TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  style: const TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                Text(
+                const Text(
                   'Mood by Music',
-                  style: GoogleFonts.comicNeue(
-                    textStyle: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: tagColor,
-                    ),
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 Text(
                   widget.moodBySound.capitalize(),
-                  style: GoogleFonts.comicNeue(
-                    textStyle: const TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  style: const TextStyle(
+                    fontSize: 15.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 70),
